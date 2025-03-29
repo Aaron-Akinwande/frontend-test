@@ -14,19 +14,19 @@ export const exportAnnotatedPDF = async (file, annotations, signatures) => {
       const { height } = pages[page].getSize();
       pages[page].drawText(text, {
         x,
-        y: height - y, // Adjust y-coordinates
+        y: height - y, 
         size: 12,
         color: rgb(...color),
       });
     });
 
-    // Embed signature images
+    
     for (let { image, page, x, y } of signatures) {
       const pngImage = await pdfDoc.embedPng(image);
       const { height } = pages[page].getSize();
       pages[page].drawImage(pngImage, {
         x,
-        y: height - y - 50, // Adjust y-coordinates
+        y: height - y - 50, 
         width: 100,
         height: 50,
       });
