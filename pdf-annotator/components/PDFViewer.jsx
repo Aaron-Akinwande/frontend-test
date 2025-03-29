@@ -41,9 +41,8 @@ const PDFViewer = ({ file }) => {
   const clearSignature = () => sigCanvas.current.clear();
 
   return (
-    <div className="relative w-full h-screen">
-      {/* Fixed Toolbar */}
-      <div className="fixed top-0 left-0 w-full bg-gray-900 text-white flex gap-4 p-3 shadow-md z-50">
+    <div className="border p-3 rounded-lg">
+     <div className="fixed top-0 left-0 w-full bg-gray-900 text-white flex gap-4 p-3 shadow-md z-50">
         <button className="bg-yellow-500 p-2 rounded" onClick={() => setSelectedColor("yellow")}>
           Highlight
         </button>
@@ -54,14 +53,31 @@ const PDFViewer = ({ file }) => {
           Add Comment
         </button>
       </div>
-
-      {/* PDF Viewer */}
-      <div className="mt-16 p-4"> {/* Adds spacing below the toolbar */}
-        {file && (
-          <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
-            <Viewer fileUrl={URL.createObjectURL(file)} plugins={[highlightPluginInstance]} />
-          </Worker>
-        )}
+      {file && (
+        <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
+          <Viewer fileUrl={URL.createObjectURL(file)} plugins={[highlightPluginInstance]} />
+        </Worker>
+      )}
+      {/* <div className="mt-5">
+        <h3 className="text-lg font-bold">Draw Signature</h3>
+        <SignatureCanvas
+          ref={sigCanvas}
+          penColor="black"
+          canvasProps={{ className: "border w-full h-32" }}
+        />
+        <button onClick={clearSignature} className="mt-2 bg-gray-500 text-white p-2 rounded">
+          Clear Signature
+        </button>
+      </div> */}
+      <div className="mt-5">
+        <h3 className="text-lg font-bold">Annotations</h3>
+        <ul>
+          {annotations.map((a, index) => (
+            <li key={index} className="bg-gray-100 p-2 my-2 rounded">
+              <strong>{a.text}</strong>: {a.comment}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
